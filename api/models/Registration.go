@@ -45,9 +45,11 @@ func (r *Registration) SaveRegistration(db *gorm.DB) (*Registration, error) {
 		if err != nil {
 			return &Registration{}, err
 		}
-		err = db.Debug().Model(&Wilayah{}).Where("kode = ?", r.KodeKabupaten).Take(&r.Kabupaten).Error
-		if err != nil {
-			return &Registration{}, err
+		if r.KodeKabupaten != "" {
+			err = db.Debug().Model(&Wilayah{}).Where("kode = ?", r.KodeKabupaten).Take(&r.Kabupaten).Error
+			if err != nil {
+				return &Registration{}, err
+			}
 		}
 	}
 	return r, nil
@@ -60,8 +62,8 @@ func (r *Registration) Validate() error {
 	if r.KodeProvinsi == "" {
 		return errors.New("required kode provinsi")
 	}
-	if r.KodeKabupaten == "" {
-		return errors.New("required kode kabupaten")
-	}
+	// if r.KodeKabupaten == "" {
+	// 	return errors.New("required kode kabupaten")
+	// }
 	return nil
 }

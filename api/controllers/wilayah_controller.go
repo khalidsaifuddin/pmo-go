@@ -21,7 +21,28 @@ func (server *Server) GetWilayahs(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, wilayahs)
 }
 
+func (server *Server) GetWilayah(w http.ResponseWriter, r *http.Request) {
+	responses.EnableCors(&w)
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	wilayah := models.Wilayah{}
+	vars := mux.Vars(r)
+	kode := vars["kode"]
+
+	wilayahs, err := wilayah.FindWilayahByID(server.DB, kode)
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, wilayahs)
+}
+
 func (server *Server) GetWilayahsByInduk(w http.ResponseWriter, r *http.Request) {
+	responses.EnableCors(&w)
+
 	vars := mux.Vars(r)
 	id_level_wilayah, err := strconv.ParseUint(vars["id_level_wilayah"], 10, 64)
 	if err != nil {

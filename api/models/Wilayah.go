@@ -40,7 +40,7 @@ func (r *Wilayah) FindAllWilayah(db *gorm.DB) (*[]Wilayah, error) {
 
 func (r *Wilayah) FindWilayahByID(db *gorm.DB, kode string) (*Wilayah, error) {
 	var err error
-	err = db.Debug().Model(&Wilayah{}).Where("id = ?", kode).Take(&r).Error
+	err = db.Debug().Model(&Wilayah{}).Where("kode = ?", kode).Take(&r).Error
 	if err != nil {
 		return &Wilayah{}, err
 	}
@@ -52,9 +52,9 @@ func (r *Wilayah) FindWilayahByInduk(db *gorm.DB, id_level_wilayah uint64, induk
 	// err = db.Debug().Model(&Wilayah{}).Where("id_level_wilayah = ?", id_level_wilayah).Where("induk_kode = ?", induk_kode).Take(&r).Error
 	wilayahs := []Wilayah{}
 	if induk_kode != "" {
-		err = db.Debug().Model(&Wilayah{}).Where("id_level_wilayah = ?", id_level_wilayah).Where("induk_kode = ?", induk_kode).Limit(100).Find(&wilayahs).Error
+		err = db.Debug().Model(&Wilayah{}).Where("id_level_wilayah = ?", id_level_wilayah).Where("induk_kode = ?", induk_kode).Limit(100).Order("nama asc").Find(&wilayahs).Error
 	} else {
-		err = db.Debug().Model(&Wilayah{}).Where("id_level_wilayah = ?", id_level_wilayah).Limit(100).Find(&wilayahs).Error
+		err = db.Debug().Model(&Wilayah{}).Where("id_level_wilayah = ?", id_level_wilayah).Limit(100).Order("nama asc").Find(&wilayahs).Error
 	}
 	if err != nil {
 		return &[]Wilayah{}, err

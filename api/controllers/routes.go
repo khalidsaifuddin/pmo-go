@@ -25,10 +25,11 @@ func (s *Server) initializeRoutes() {
 	// s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareAuthentication(s.DeletePost)).Methods("DELETE")
 
 	//Registration routes
-	s.Router.HandleFunc("/registration", middlewares.SetMiddlewareJSON(s.CreateRegistration)).Methods("POST")
+	s.Router.HandleFunc("/registration", middlewares.SetMiddlewareJSON(s.CreateRegistration)).Methods("POST", "OPTIONS")
 
 	//Wilayah routes
 	s.Router.HandleFunc("/wilayah", middlewares.SetMiddlewareJSON(s.GetWilayahs)).Methods("GET")
+	s.Router.HandleFunc("/wilayah_individu/{kode}", middlewares.SetMiddlewareJSON(s.GetWilayah)).Methods("GET")
 	s.Router.HandleFunc("/wilayah/{id_level_wilayah}", middlewares.SetMiddlewareJSON(s.GetWilayahsByInduk)).Methods("GET")
 	s.Router.HandleFunc("/wilayah/{id_level_wilayah}/{induk_kode}", middlewares.SetMiddlewareJSON(s.GetWilayahsByInduk)).Methods("GET")
 

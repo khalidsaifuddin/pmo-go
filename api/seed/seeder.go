@@ -18,8 +18,8 @@ func Load(db *gorm.DB) {
 		log.Fatalf("attaching foreign key error: %v", err)
 	}
 
-	err = db.Debug().Model(&models.Registration{}).AddForeignKey("kode_kabupaten", "wilayahs(kode)", "cascade", "cascade").Error
-	if err != nil {
-		log.Fatalf("attaching foreign key error: %v", err)
-	}
+	// err = db.Debug().Model(&models.Registration{}).AddForeignKey("kode_kabupaten", "wilayahs(kode)", "cascade", "cascade").Error
+	// if err != nil {
+	// 	log.Fatalf("attaching foreign key error: %v", err)
+	// }
 }

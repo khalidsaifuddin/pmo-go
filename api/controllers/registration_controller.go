@@ -12,6 +12,12 @@ import (
 )
 
 func (server *Server) CreateRegistration(w http.ResponseWriter, r *http.Request) {
+	responses.EnableCors(&w)
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
