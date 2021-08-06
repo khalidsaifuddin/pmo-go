@@ -26,6 +26,7 @@ func (s *Server) initializeRoutes() {
 
 	//Registration routes
 	s.Router.HandleFunc("/registration", middlewares.SetMiddlewareJSON(s.CreateRegistration)).Methods("POST", "OPTIONS")
+	s.Router.HandleFunc("/registration_individu/{id}", middlewares.SetMiddlewareJSON(s.GetRegistration)).Methods("GET", "OPTIONS")
 
 	//Wilayah routes
 	s.Router.HandleFunc("/wilayah", middlewares.SetMiddlewareJSON(s.GetWilayahs)).Methods("GET")

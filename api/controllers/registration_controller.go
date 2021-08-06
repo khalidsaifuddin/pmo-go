@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/khalidsaifuddin/pmo/api/models"
 	"github.com/khalidsaifuddin/pmo/api/responses"
 	"github.com/khalidsaifuddin/pmo/api/utils/formaterror"
@@ -43,4 +44,23 @@ func (server *Server) CreateRegistration(w http.ResponseWriter, r *http.Request)
 	}
 	w.Header().Set("Lacation", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, registrationCreated.ID))
 	responses.JSON(w, http.StatusCreated, registrationCreated)
+}
+
+func (server *Server) GetRegistration(w http.ResponseWriter, r *http.Request) {
+	responses.EnableCors(&w)
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	registration := models.Registration{}
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	registrations, err := registration.FindRegistrationByID(server.DB, id)
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, registrations)
 }
